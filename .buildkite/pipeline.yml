@@ -4,6 +4,8 @@ steps:
       - docker build --build-arg http_proxy="http://proxy.ops.scentregroup.io:3128" --build-arg https_proxy="http://proxy.ops.scentregroup.io:3128" --tag scentregroup/nginx:latest ./
       - docker push scentregroup/nginx:latest
 
+  - wait
+
   - name: ":rancher: [dev] deploy"
     command: stack_deploy
     env:
