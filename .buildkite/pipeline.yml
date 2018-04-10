@@ -1,8 +1,12 @@
 steps:
   - name: ":docker: build + push + rmi"
+    env:
+      HTTP_PROXY: "http://proxy.ops.scentregroup.io:3128"
     commands:
-      - docker build --build-arg http_proxy="http://proxy.ops.scentregroup.io:3128" --build-arg https_proxy="http://proxy.ops.scentregroup.io:3128" --tag scentregroup/nginx:latest ./
-      - docker push scentregroup/nginx:latest
+      - docker build --build-arg http_proxy=\${HTTP_PROXY} --build-arg https_proxy=\${HTTP_PROXY} -t ${BUILDKITE_ORGANIZATION_SLUG}/${BUILDKITE_PIPELINE_SLUG}:${BUILDKITE_BUILD_NUMBER} -t ${BUILDKITE_ORGANIZATION_SLUG}/${BUILDKITE_PIPELINE_SLUG}:latest ./
+      - docker push ${BUILDKITE_ORGANIZATION_SLUG}/${BUILDKITE_PIPELINE_SLUG}:${BUILDKITE_BUILD_NUMBER}
+      - docker push ${BUILDKITE_ORGANIZATION_SLUG}/${BUILDKITE_PIPELINE_SLUG}:latest
+      - docker rmi ${BUILDKITE_ORGANIZATION_SLUG}/${BUILDKITE_PIPELINE_SLUG}:${BUILDKITE_BUILD_NUMBER}
 
   - wait
 
