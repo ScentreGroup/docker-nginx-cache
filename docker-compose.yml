@@ -10,7 +10,7 @@ services:
       io.rancher.container.create_agent: 'true'
       io.rancher.scheduler.global: 'true'
   contentful-nginx-cache:
-    image: scentregroup/${IMAGE_NAME}:${IMAGE_TAG}
+    image: ${BUILDKITE_ORGANIZATION_SLUG}/${BUILDKITE_PIPELINE_SLUG}:${BUILDKITE_BUILD_NUMBER}
     environment:
       HOST_TO_CACHE: 'cdn.contentful.com'
       CACHE_TTL: '30s'
