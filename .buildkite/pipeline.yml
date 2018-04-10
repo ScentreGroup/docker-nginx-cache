@@ -12,6 +12,9 @@ steps:
       STACK_NAME: ${BUILDKITE_PIPELINE_SLUG}
       SCALE: 2
 
+  - block: ':rancher: [stg] initiate deploy'
+    branches: stg
+
   - name: ":rancher: [stg] deploy"
     command: stack_deploy
     env:
@@ -19,6 +22,9 @@ steps:
       STACK_ENV: stg
       STACK_NAME: ${BUILDKITE_PIPELINE_SLUG}
       SCALE: 4
+
+  - block: ':rancher: [prd] initiate deploy'
+    branches: prd
 
   - name: ":rancher: [prd] deploy"
     command: stack_deploy
