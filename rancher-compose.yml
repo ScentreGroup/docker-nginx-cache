@@ -11,7 +11,7 @@ services:
       port_rules:
       - priority: 1
         protocol: http
-        service: web
+        service: contentful-nginx-cache
         source_port: ${LB_PORT}
         target_port: 80
     health_check:

@@ -13,9 +13,10 @@ steps:
   - name: ":rancher: [dev] deploy"
     command: stack_deploy
     env:
-      LB_PORT: 8012
       STACK_ENV: dev
-      STACK_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      LB_PORT: 8012
+      IMAGE_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      IMAGE_TAG:  ${BUILDKITE_BUILD_NUMBER}
       SCALE: 2
 
   - block: ':rancher: [stg] initiate deploy'
@@ -23,9 +24,10 @@ steps:
   - name: ":rancher: [stg] deploy"
     command: stack_deploy
     env:
-      LB_PORT: 8012
       STACK_ENV: stg
-      STACK_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      LB_PORT: 8012
+      IMAGE_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      IMAGE_TAG:  ${BUILDKITE_BUILD_NUMBER}
       SCALE: 4
 
   - block: ':rancher: [prd] initiate deploy'
@@ -33,7 +35,8 @@ steps:
   - name: ":rancher: [prd] deploy"
     command: stack_deploy
     env:
-      LB_PORT: 8012
       STACK_ENV: prd
-      STACK_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      LB_PORT: 8012
+      IMAGE_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      IMAGE_TAG:  ${BUILDKITE_BUILD_NUMBER}
       SCALE: 4

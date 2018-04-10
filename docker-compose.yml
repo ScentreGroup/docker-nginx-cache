@@ -10,10 +10,10 @@ services:
       io.rancher.container.create_agent: 'true'
       io.rancher.scheduler.global: 'true'
   contentful-nginx-cache:
+    image: scentregroup/${IMAGE_NAME}:${IMAGE_TAG}
     environment:
       HOST_TO_CACHE: 'cdn.contentful.com'
       CACHE_TTL: '30s'
     labels:
       io.rancher.container.pull_image: 'always'
       io.rancher.scheduler.affinity:host_label: 'tier=private'
-    image: scentregroup/nginx-cache:latest
