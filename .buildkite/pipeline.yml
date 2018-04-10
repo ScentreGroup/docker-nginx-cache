@@ -15,7 +15,6 @@ steps:
       SCALE: 2
 
   - block: ':rancher: [stg] initiate deploy'
-    branches: stg
 
   - name: ":rancher: [stg] deploy"
     command: stack_deploy
@@ -26,7 +25,6 @@ steps:
       SCALE: 4
 
   - block: ':rancher: [prd] initiate deploy'
-    branches: prd
 
   - name: ":rancher: [prd] deploy"
     command: stack_deploy
