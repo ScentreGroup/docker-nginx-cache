@@ -1,0 +1,19 @@
+version: '2'
+services:
+  lb:
+    image: rancher/lb-service-haproxy:v0.7.15
+    ports:
+      - ${LB_PORT}:${LB_PORT}/tcp
+    labels:
+      io.rancher.scheduler.affinity:host_label: tier=private
+      io.rancher.container.agent.role: environmentAdmin,agent
+      io.rancher.container.create_agent: 'true'
+      io.rancher.scheduler.global: 'true'
+  contentful-nginx-cache:
+    environment:
+      HOST_TO_CACHE: 'cdn.contentful.com'
+      CACHE_TTL: '30s'
+    labels:
+      io.rancher.container.pull_image: 'always'
+      io.rancher.scheduler.affinity:host_label: 'tier=private'
+    image: scentregroup/nginx-cache:latest

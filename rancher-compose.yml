@@ -1,0 +1,39 @@
+version: '2'
+services:
+  lb:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      config: |-
+        frontend ${LB_PORT}
+          balance uri
+          hash-type consistent
+      port_rules:
+      - priority: 1
+        protocol: http
+        service: web
+        source_port: ${LB_PORT}
+        target_port: 80
+    health_check:
+      port: 42
+      interval: 2000
+      unhealthy_threshold: 3
+      healthy_threshold: 2
+      response_timeout: 2000
+      strategy: recreate
+  contentful-nginx-cache:
+    scale: ${SCALE}
+    start_on_create: true
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 80
+      unhealthy_threshold: 3
+      initializing_timeout: 60000
+      interval: 2000
+      strategy: recreate
+      request_line: GET "/health_check" "HTTP/1.0"
+      reinitializing_timeout: 60000
+  redis:
+    scale: 1
+    start_on_create: true

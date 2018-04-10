@@ -1,0 +1,29 @@
+steps:
+  - name: ":docker: build + push + rmi"
+    commands:
+      - docker build --build-arg http_proxy="http://proxy.ops.scentregroup.io:3128" --build-arg https_proxy="http://proxy.ops.scentregroup.io:3128" --tag scentregroup/nginx:latest ./
+      - docker push scentregroup/nginx:latest
+
+  - name: ":rancher: [dev] deploy"
+    command: stack_deploy
+    env:
+      LB_PORT: 8012
+      STACK_ENV: dev
+      STACK_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      SCALE: 2
+
+  - name: ":rancher: [stg] deploy"
+    command: stack_deploy
+    env:
+      LB_PORT: 8012
+      STACK_ENV: stg
+      STACK_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      SCALE: 4
+
+  - name: ":rancher: [prd] deploy"
+    command: stack_deploy
+    env:
+      LB_PORT: 8012
+      STACK_ENV: prd
+      STACK_NAME: ${BUILDKITE_PIPELINE_SLUG}
+      SCALE: 4
