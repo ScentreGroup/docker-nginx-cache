@@ -14,6 +14,7 @@ services:
     environment:
       HOST_TO_CACHE: 'cdn.contentful.com'
       CACHE_TTL: '30s'
+      CACHE_LOCK_TIMEOUT: '1s'
     labels:
       io.rancher.container.pull_image: 'always'
       io.rancher.scheduler.affinity:host_label: 'tier=private'
