@@ -1,12 +1,13 @@
 version: '2'
 services:
   lb:
-    image: rancher/lb-service-haproxy:v0.7.15
+    image: rancher/lb-service-haproxy:${RANCHER_LB_HAPROXY_VER}
     ports:
       - ${LB_PORT}:${LB_PORT}/tcp
     labels:
       io.rancher.scheduler.affinity:host_label: tier=private
       io.rancher.container.agent.role: environmentAdmin,agent
+      io.rancher.container.agent_service.drain_provider: 'true'
       io.rancher.container.create_agent: 'true'
       io.rancher.scheduler.global: 'true'
   contentful-nginx-cache:
